@@ -40,6 +40,7 @@
                 message = playerScissors(computerSelection);
             } else {
                 message = 'Please enter a valid selection';
+                return playRound(getUserInput().toLowerCase(), computerSelection);
             }
             return `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
         }
@@ -92,8 +93,6 @@
         
         const computerSelection = computerPlay();
         const playerSelection = getUserInput().toLowerCase();
-        console.log({ computerSelection });
-        console.log({ playerSelection });
         console.log(playRound(playerSelection, computerSelection));
     </script>
 </body>
