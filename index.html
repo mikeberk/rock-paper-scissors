@@ -30,32 +30,36 @@
         // Create game function that takes a user input as a parameter and computerPlay as another
         function playRound(playerSelection, computerSelection) {
             // init a message variable
-            let message = '';
+            let score;
             // call functions for different scenarios for what the player chooses
             if (playerSelection == 'rock') {
-                message = playerRock(computerSelection);
+                score = playerRock(computerSelection);
             } else if (playerSelection == 'paper') {
-                message = playerPaper(computerSelection);
+                score = playerPaper(computerSelection);
             } else if (playerSelection == 'scissors') {
-                message = playerScissors(computerSelection);
+                score = playerScissors(computerSelection);
             } else {
-                message = 'Please enter a valid selection';
+                console.log('Please enter a valid selection');
                 return playRound(getUserInput().toLowerCase(), computerSelection);
             }
-            return `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
+            return score;
+            // `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
         }
         
         // Create a playerRock function
         function playerRock(computerSelection) {
             switch (computerSelection) {
                 case 'rock': 
-                    return `It's a tie!`;
+                    console.log(`It's a tie!`);
+                    return 0;
                     break;
                 case 'paper':
-                    return `You lose! Paper covers rock`;
+                    console.log(`You lose! Paper covers rock`);
+                    return -1;
                     break;
                 case 'scissors':
-                    return `You win! Rock beats scissors`;
+                    console.log(`You win! Rock beats scissors`);
+                    return 1;
                     break;
             }
         }
@@ -64,13 +68,16 @@
         function playerPaper(computerSelection) {
             switch (computerSelection) {
                 case 'rock':
-                    return `You win! Paper covers rock`;
+                    console.log(`You win! Paper covers rock`);
+                    return 1;
                     break;
                 case 'paper':
-                    return `It's a tie!`;
+                    console.log(`It's a tie!`);
+                    return 0;
                     break;
                 case 'scissors':
-                    return `You lose! Scissors beats paper`;
+                    console.log(`You lose! Scissors beats paper`);
+                    return -1;
                     break;
             
             }
@@ -80,20 +87,37 @@
         function playerScissors(computerSelection) {
             switch (computerSelection) {
                 case 'rock':
-                    return `You lose! Rock beats scissors`;
+                    console.log(`You lose! Rock beats scissors`);
+                    return -1;
                     break;
                 case 'paper':
-                    return `You win! Scissors beats paper`;
+                    console.log(`You win! Scissors beats paper`);
+                    return 1;
                     break;
                 case 'scissors':
-                    return `It's a tie!`;
+                    console.log(`It's a tie!`)
+                    return 0;
                     break;
             }
         }
+
+        // Create a game function to play multiple rounds
+        function game() {
+            let score = 0;
+            for (let i = 0; i <5; i ++) {
+                let computerSelection = computerPlay();
+                let playerSelection = getUserInput().toLowerCase();
+                score += playRound(playerSelection, computerSelection);
+            }
+            console.log(score);
+            const final = (score > 0) ? "winner"
+            : (score < 0) ? "loser"
+            : "it's a tie";
+            return final;
+        }
         
-        const computerSelection = computerPlay();
-        const playerSelection = getUserInput().toLowerCase();
-        console.log(playRound(playerSelection, computerSelection));
+        console.log(game());
+        //console.log(playRound(playerSelection, computerSelection));
     </script>
 </body>
 </html>
