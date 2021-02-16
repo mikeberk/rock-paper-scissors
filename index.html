@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        //Create a function to randomly return rock, paper, or scissors
+        function computerPlay() {
+            // initialize an array to store the three options
+            let rpsArray = ['rock', 'paper', 'scissors'];
+            // initialize a variable for the computer choice as empty str
+            let computerChoice = '';
+            // use a random method to choose a number between 0 and 2 inclusive
+            let randomNum = (Math.floor(Math.random() * 3));
+            // use the random output to select the index of our options array and store in computer choice
+            computerChoice = rpsArray[randomNum];
+            // return computer choice
+            return computerChoice;
+        }
+
+        // Get user input
+
+        function getUserInput() {
+           let answer =  prompt('Enter rock, paper, or scissors');
+           return answer;
+        }
+
+        // Create game function that takes a user input as a parameter and computerPlay as another
+        function playRound(playerSelection, computerSelection) {
+            // init a message variable
+            let message = '';
+            // call functions for different scenarios for what the player chooses
+            if (playerSelection == 'rock') {
+                message = playerRock(computerSelection);
+            } else if (playerSelection == 'paper') {
+                message = playerPaper(computerSelection);
+            } else if (playerSelection == 'scissors') {
+                message = playerScissors(computerSelection);
+            } else {
+                message = 'Please enter a valid selection';
+            }
+            return `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
+        }
+        
+        // Create a playerRock function
+        function playerRock(computerSelection) {
+            switch (computerSelection) {
+                case 'rock': 
+                    return `It's a tie!`;
+                    break;
+                case 'paper':
+                    return `You lose! Paper covers rock`;
+                    break;
+                case 'scissors':
+                    return `You win! Rock beats scissors`;
+                    break;
+            }
+        }
+        
+        // Create a playerPaper function
+        function playerPaper(computerSelection) {
+            switch (computerSelection) {
+                case 'rock':
+                    return `You win! Paper covers rock`;
+                    break;
+                case 'paper':
+                    return `It's a tie!`;
+                    break;
+                case 'scissors':
+                    return `You lose! Scissors beats paper`;
+                    break;
+            
+            }
+        }
+
+        // Create a playerScissors function
+        function playerScissors(computerSelection) {
+            switch (computerSelection) {
+                case 'rock':
+                    return `You lose! Rock beats scissors`;
+                    break;
+                case 'paper':
+                    return `You win! Scissors beats paper`;
+                    break;
+                case 'scissors':
+                    return `It's a tie!`;
+                    break;
+            }
+        }
+        
+        const computerSelection = computerPlay();
+        const playerSelection = getUserInput().toLowerCase();
+        console.log({ computerSelection });
+        console.log({ playerSelection });
+        console.log(playRound(playerSelection, computerSelection));
+    </script>
+</body>
+</html>
