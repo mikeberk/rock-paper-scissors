@@ -3,120 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="btns">
+        <button class='rock'>Rock</button>
+        <button class='paper'>Paper</button>
+        <button class='scissors'>Scissors</button>
+        <button class='reset'>Reset</button>
+    </div>
+    <div class="result"></div>
+    <div class="score">
+        Player score: 
+        <span class="player-score">0</span>
+        Computer score: 
+        <span class="comp-score">0</span>
+    </div>
+    <div class="final"></div>
+
+
     <script>
+
+        const rockBtn = document.querySelector('.rock');
+        const paperBtn = document.querySelector('.paper');
+        const scissorsBtn = document.querySelector('.scissors');
+        const resetBtn = document.querySelector('.reset');
+        const resultDiv = document.querySelector('.result');
+        const playerTotal = document.querySelector('.player-score');
+        const computerTotal = document.querySelector('.comp-score');
+        const finalDiv = document.querySelector('.final');
+        let playerScore = 0;
+        let computerScore = 0;
+
         //Create a function to randomly return rock, paper, or scissors
         function computerPlay() {
-            // initialize an array to store the three options
             let rpsArray = ['rock', 'paper', 'scissors'];
-            // initialize a variable for the computer choice as empty str
             let computerChoice = '';
-            // use a random method to choose a number between 0 and 2 inclusive
             let randomNum = (Math.floor(Math.random() * 3));
-            // use the random output to select the index of our options array and store in computer choice
             computerChoice = rpsArray[randomNum];
-            // return computer choice
             return computerChoice;
         }
 
-        // Get user input
+        function win(playerSelection, computerSelection) {
+            playerScore++;
+            playerTotal.textContent = playerScore;
+            computerTotal.textContent = computerScore;
+            resultDiv.textContent = `${playerSelection} beats ${computerSelection}. You win!`;
+            if (playerScore === 5 && !finalDiv.textContent) {
+                finalDiv.textContent = `You win the best of 5!`;
+            }
+        }
 
-        function getUserInput() {
-           let answer =  prompt('Enter rock, paper, or scissors');
-           return answer;
+        function lose(playerSelection, computerSelection) {
+            computerScore++;
+            playerTotal.textContent = playerScore;
+            computerTotal.textContent = computerScore;
+            resultDiv.textContent = `${computerSelection} beats ${playerSelection}. You lose!`;
+            if (computerScore === 5 && !finalDiv.textContent) {
+                finalDiv.textContent = `Computer wins the best of 5!`;
+            }
+        }
+
+        function tie(playerSelection, computerSelection) {
+            playerTotal.textContent = playerScore;
+            computerTotal.textContent = computerScore;
+            resultDiv.textContent = `${playerSelection} beats ${computerSelection}. You win!`;
         }
 
         // Create game function that takes a user input as a parameter and computerPlay as another
-        function playRound(playerSelection, computerSelection) {
-            // init a message variable
-            let score;
-            // call functions for different scenarios for what the player chooses
-            if (playerSelection == 'rock') {
-                score = playerRock(computerSelection);
-            } else if (playerSelection == 'paper') {
-                score = playerPaper(computerSelection);
-            } else if (playerSelection == 'scissors') {
-                score = playerScissors(computerSelection);
-            } else {
-                console.log('Please enter a valid selection');
-                return playRound(getUserInput().toLowerCase(), computerSelection);
-            }
-            return score;
-            // `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
-        }
-        
-        // Create a playerRock function
-        function playerRock(computerSelection) {
-            switch (computerSelection) {
-                case 'rock': 
-                    console.log(`It's a tie!`);
-                    return 0;
+        function playRound(e) {
+            let computerSelection = computerPlay();
+            let playerSelection = e.target.classList.value;
+            switch (playerSelection + computerSelection) {
+                case "rockscissors":
+                case "paperrock":
+                case "scissorspaper":
+                    win(playerSelection, computerSelection);
                     break;
-                case 'paper':
-                    console.log(`You lose! Paper covers rock`);
-                    return -1;
+                case "rockpaper":
+                case "paperscissors":
+                case "scissorsrock":
+                    lose(playerSelection, computerSelection);
                     break;
-                case 'scissors':
-                    console.log(`You win! Rock beats scissors`);
-                    return 1;
-                    break;
-            }
-        }
-        
-        // Create a playerPaper function
-        function playerPaper(computerSelection) {
-            switch (computerSelection) {
-                case 'rock':
-                    console.log(`You win! Paper covers rock`);
-                    return 1;
-                    break;
-                case 'paper':
-                    console.log(`It's a tie!`);
-                    return 0;
-                    break;
-                case 'scissors':
-                    console.log(`You lose! Scissors beats paper`);
-                    return -1;
-                    break;
-            
-            }
-        }
-
-        // Create a playerScissors function
-        function playerScissors(computerSelection) {
-            switch (computerSelection) {
-                case 'rock':
-                    console.log(`You lose! Rock beats scissors`);
-                    return -1;
-                    break;
-                case 'paper':
-                    console.log(`You win! Scissors beats paper`);
-                    return 1;
-                    break;
-                case 'scissors':
-                    console.log(`It's a tie!`)
-                    return 0;
+                case "rockrock":
+                case "paperpaper":
+                case "scissorsscissors":
+                    tie(playerSelection, computerSelection);
                     break;
             }
         }
 
-        // Create a game function to play multiple rounds
-        function game() {
-            let score = 0;
-            for (let i = 0; i <5; i ++) {
-                let computerSelection = computerPlay();
-                let playerSelection = getUserInput().toLowerCase();
-                score += playRound(playerSelection, computerSelection);
-            }
-            console.log(score);
-            const final = (score > 0) ? "winner"
-            : (score < 0) ? "loser"
-            : "it's a tie";
-            return final;
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            playerTotal.textContent = playerScore;
+            computerTotal.textContent = computerScore;
+            resultDiv.textContent = '';
+            finalDiv.textContent = '';
         }
-        
-        console.log(game());
+
+
+        rockBtn.addEventListener('click', playRound);
+        paperBtn.addEventListener('click', playRound);
+        scissorsBtn.addEventListener('click', playRound);
+        resetBtn.addEventListener('click', resetGame);
+
     </script>
 </body>
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        //Create a function to randomly return rock, paper, or scissors
+        function computerPlay() {
+            // initialize an array to store the three options
+            let rpsArray = ['rock', 'paper', 'scissors'];
+            // initialize a variable for the computer choice as empty str
+            let computerChoice = '';
+            // use a random method to choose a number between 0 and 2 inclusive
+            let randomNum = (Math.floor(Math.random() * 3));
+            // use the random output to select the index of our options array and store in computer choice
+            computerChoice = rpsArray[randomNum];
+            // return computer choice
+            return computerChoice;
+        }
+
+        // Get user input
+
+        function getUserInput() {
+           let answer =  prompt('Enter rock, paper, or scissors');
+           return answer;
+        }
+
+        // Create game function that takes a user input as a parameter and computerPlay as another
+        function playRound(playerSelection, computerSelection) {
+            // init a message variable
+            let score;
+            // call functions for different scenarios for what the player chooses
+            if (playerSelection == 'rock') {
+                score = playerRock(computerSelection);
+            } else if (playerSelection == 'paper') {
+                score = playerPaper(computerSelection);
+            } else if (playerSelection == 'scissors') {
+                score = playerScissors(computerSelection);
+            } else {
+                console.log('Please enter a valid selection');
+                return playRound(getUserInput().toLowerCase(), computerSelection);
+            }
+            return score;
+            // `Player choice: ${playerSelection}. Computer choice: ${computerSelection}. - ${message}`;
+        }
+        
+        // Create a playerRock function
+        function playerRock(computerSelection) {
+            switch (computerSelection) {
+                case 'rock': 
+                    console.log(`It's a tie!`);
+                    return 0;
+                    break;
+                case 'paper':
+                    console.log(`You lose! Paper covers rock`);
+                    return -1;
+                    break;
+                case 'scissors':
+                    console.log(`You win! Rock beats scissors`);
+                    return 1;
+                    break;
+            }
+        }
+        
+        // Create a playerPaper function
+        function playerPaper(computerSelection) {
+            switch (computerSelection) {
+                case 'rock':
+                    console.log(`You win! Paper covers rock`);
+                    return 1;
+                    break;
+                case 'paper':
+                    console.log(`It's a tie!`);
+                    return 0;
+                    break;
+                case 'scissors':
+                    console.log(`You lose! Scissors beats paper`);
+                    return -1;
+                    break;
+            
+            }
+        }
+
+        // Create a playerScissors function
+        function playerScissors(computerSelection) {
+            switch (computerSelection) {
+                case 'rock':
+                    console.log(`You lose! Rock beats scissors`);
+                    return -1;
+                    break;
+                case 'paper':
+                    console.log(`You win! Scissors beats paper`);
+                    return 1;
+                    break;
+                case 'scissors':
+                    console.log(`It's a tie!`)
+                    return 0;
+                    break;
+            }
+        }
+
+        // Create a game function to play multiple rounds
+        function game() {
+            let score = 0;
+            for (let i = 0; i <5; i ++) {
+                let computerSelection = computerPlay();
+                let playerSelection = getUserInput().toLowerCase();
+                score += playRound(playerSelection, computerSelection);
+            }
+            console.log(score);
+            const final = (score > 0) ? "winner"
+            : (score < 0) ? "loser"
+            : "it's a tie";
+            return final;
+        }
+        
+        console.log(game());
+    </script>
+</body>
+</html>
